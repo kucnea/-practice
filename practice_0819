@@ -1,0 +1,30 @@
+public class kakaonumber {
+	public static void main(String[] args) {
+		
+		String s="zero2six8nine";
+		int answer = solution(s);
+		System.out.println(answer);
+		
+		
+	}
+
+	private static int solution(String s) {
+		int answer = 0;
+		
+		String a = s.replaceAll("zero", "0");
+		String a1 = a.replaceAll("one","1");
+		String a2 = a1.replaceAll("two", "2");
+		String a3 = a2.replaceAll("three", "3");
+		String a4 = a3.replaceAll("four", "4");
+		String a5 = a4.replaceAll("five", "5");
+		String a6 = a5.replaceAll("six", "6");
+		String a7 = a6.replaceAll("seven", "7");
+		String a8 = a7.replaceAll("eight", "8");
+		String a9 = a8.replaceAll("nine", "9");
+		
+		answer = Integer.parseInt(a9);
+				
+		
+		return answer;
+	}
+}
