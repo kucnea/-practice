@@ -1,0 +1,23 @@
+public class inside {
+
+	public static void main(String[] args) {
+		
+		int[] a= {};
+		int[] b= {};
+		
+		int c = solution(a,b);
+		System.out.println(c);
+		
+	}
+
+	private static int solution(int[] a, int[] b) {
+		int answer = 0;
+		
+		for (int i = 0; i < b.length; i++) {
+			answer += a[i]*b[i];
+		}
+		
+		return answer;
+	}
+
+}
