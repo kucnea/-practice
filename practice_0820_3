@@ -1,0 +1,57 @@
+public class kst {
+	public static void main(String[] args) {
+		
+		int[] array = {1, 5, 2, 6, 3, 7, 4};
+		int[][] commands = {{2, 5, 3}, {4, 4, 1}, {1, 7, 3}};
+		int[] answer = solution(array, commands);
+		
+		System.out.print("{ ");
+		for (int i = 0; i < answer.length; i++) {
+			System.out.print(answer[i]);
+			if(i!=answer.length-1) {
+				System.out.print(",");
+			}
+		}
+		System.out.println(" }");
+		
+	}
+
+	private static int[] solution(int[] array, int[][] commands) {
+		int[] answer = new int[commands.length];
+		int[] arrayCopy = new int[array.length];
+
+		for (int i = 0; i < arrayCopy.length; i++) {
+			arrayCopy[i] = array[i];
+		}
+		
+		for (int i = 0; i < commands.length; i++) {
+			for (int j = commands[i][0]-1; j < commands[i][1]; j++) {
+				System.out.println("commands[i][0]-1 : "+(commands[i][0]-1));
+				System.out.println("commands[i][1] : "+commands[i][1]);
+				for (int m = j+1; m < commands[i][1]; m++) {
+					int temp;
+					if(array[j]>array[m]) {
+						temp = array[j];
+						array[j] = array[m];
+						array[m] = temp;
+					}
+				}
+				System.out.print("{");
+				for (int j2 = 0; j2 < array.length; j2++) {
+					System.out.print(array[j2]);
+				}
+				System.out.print("} + ");
+				System.out.print("인데스 : "+(commands[i][0]+commands[i][2]-2));
+				System.out.println(" 값 : "+array[commands[i][0]+commands[i][2]-2]);
+				System.out.println("i : "+i);
+				answer[i] = array[commands[i][0]+commands[i][2]-2];
+			}
+
+			for (int j = 0; j < arrayCopy.length; j++) {
+				array[j] = arrayCopy[j];
+			}
+		}
+		
+		return answer;
+	}
+}
