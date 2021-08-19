@@ -1,0 +1,130 @@
+public class DontGiveUp3 {
+
+	public static void main(String[] args) {
+		int[] answers = {1,2,3,4,5};
+		int[] result = solution(answers);
+		
+		
+		System.out.println(" } ");
+		System.out.print(" result : { ");
+		for (int i = 0; i < result.length; i++) {
+			System.out.print(result[i]);
+			if(i!=result.length-1) {
+				System.out.print(",");
+			}
+		}
+		System.out.println(" } ");
+	}
+
+	private static int[] solution(int[] answers) {
+		int[] player1 = new int[answers.length];
+		int[] player2 = new int[answers.length];
+		int[] player3 = new int[answers.length];
+		
+		int c = 0;
+
+		int[] p1={ 1, 2, 3, 4, 5};
+		for (int i = 0; i < answers.length; i++) {
+			player1[i] = p1[c];
+			if (c == 4) {
+				c = 0;
+			} else {
+				c++;
+			}
+		}
+
+		c = 0;
+
+		int[] p2 = { 2, 1, 2, 3, 2, 4, 2, 5 };
+		for (int i = 0; i < answers.length; i++) {
+			player2[i] = p2[c];
+			if (c == 7) {
+				c = 0;
+			} else {
+				c++;
+			}
+		}
+
+		c = 0;
+
+		int[] p3 = { 3, 3, 1, 1, 2, 2, 4, 4, 5, 5 };
+		for (int i = 0; i < answers.length; i++) {
+			player3[i] = p3[c];
+			if (c == 9) {
+				c = 0;
+			} else {
+				c++;
+			}
+		}
+		
+		System.out.print(" player1 : { ");
+		for (int i = 0; i < player1.length; i++) {
+			System.out.print(+player1[i]);
+			if(i!=player1.length-1) {
+				System.out.print(",");
+			}
+		}
+		System.out.println(" } ");
+		System.out.print(" player2 : { ");
+		for (int i = 0; i < player2.length; i++) {
+			System.out.print(player2[i]);
+			if(i!=player2.length-1) {
+				System.out.print(",");
+			}
+		}
+		System.out.println(" } ");
+		System.out.print(" player3 : { ");
+		for (int i = 0; i < player3.length; i++) {
+			System.out.print(player3[i]);
+			if(i!=player3.length-1) {
+				System.out.print(",");
+			}
+		}
+		System.out.println(" } ");
+		
+		
+		int count1 = 0;
+		int count2 = 0;
+		int count3 = 0;
+		
+		for (int i = 0; i < answers.length; i++) {
+			count1 += (player1[i]==answers[i])? 1:0; 
+		}
+		for (int i = 0; i < answers.length; i++) {
+			count2 += (player2[i]==answers[i])? 1:0; 
+		}
+		for (int i = 0; i < answers.length; i++) {
+			count3 += (player3[i]==answers[i])? 1:0; 
+		}
+		
+		System.out.println("count1 : "+count1+" count2 : "+count2+" count3 : "+count3);
+		
+		int[] table = {count1, count2, count3};
+		int[] rank = new int[3];
+		
+		for (int i = 0; i < table.length; i++) {
+			for (int j = 0; j < table.length; j++) {
+				if(table[i]<table[j]) {
+					rank[i]++;
+				}
+			}
+		}
+
+		int to = 0;
+		for (int i = 0; i < rank.length; i++) {
+			to += (rank[i]==0)? 1:0;
+		}
+		
+		int[] answer = new int[to];
+		c = 0;
+		for (int i = 0; i < table.length; i++) {
+			if(rank[i]==0) {
+				answer[c] = i+1;
+				c++;
+			}
+		}
+		
+		return answer;
+	}
+
+}
