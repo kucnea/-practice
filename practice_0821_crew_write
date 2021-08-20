@@ -1,0 +1,116 @@
+package Ex2;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+
+public class Day18Quiz9 extends JFrame implements ActionListener{
+
+	JLabel name, age, pos, tel;
+	JTextField tfName, tfAge, tfPos,tfTel;
+	JButton save, exit;
+	Crew crew;
+	static ArrayList<Crew> list;
+	
+	Day18Quiz9(){
+		
+		setLayout(null);
+		
+		name = new JLabel("이름", JLabel.CENTER);
+		age = new JLabel("나이", JLabel.CENTER);
+		pos = new JLabel("직급", JLabel.CENTER);
+		tel = new JLabel("전화번호", JLabel.CENTER);
+		
+		tfName = new JTextField();
+		tfAge  = new JTextField();
+		tfPos  = new JTextField();
+		tfTel  = new JTextField();
+		
+		save = new JButton("저장");
+		exit = new JButton("종료");
+		
+		add(name);
+		add(age);
+		add(pos);
+		add(tel);
+		add(tfName);
+		add(tfAge);
+		add(tfPos);
+		add(tfTel);
+		add(save);
+		add(exit);
+		
+		save.addActionListener(this);
+		exit.addActionListener(this);
+		
+		name.setBounds(160, 50, 100, 50);
+		age.setBounds(160, 150, 100, 50);
+		pos.setBounds(160, 250, 100, 50);
+		tel.setBounds(160, 350, 100, 50);
+		tfName.setBounds(400, 50, 250, 50);
+		tfAge.setBounds(400, 150, 250, 50);
+		tfPos.setBounds(400, 250, 250, 50);
+		tfTel.setBounds(400, 350, 250, 50);
+		save.setBounds(100, 450, 250, 60);
+		exit.setBounds(400, 450, 250, 60);
+		
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setTitle("사원 정보 입력");
+		setBounds(200,200,800,600);
+		setVisible(true);
+	}
+	
+	
+	public static void main(String[] args) {
+		
+		list = new ArrayList<Crew>(); // 저장할때마다 새로운 list를 만들면 기존 정보가 날아가기에 고정값을 유지시키고자 코드.
+		new Day18Quiz9();
+		
+	}
+
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+
+		Object obj = e.getSource();
+		
+		
+		if(obj == save) {
+				
+			
+			try {
+				ObjectOutputStream oos = new ObjectOutputStream
+						(new FileOutputStream("c:\\memberInfo2.txt",false));
+
+				crew = new Crew(tfName.getText(),
+						Integer.parseInt(tfAge.getText()),tfPos.getText(),tfTel.getText());
+
+				list.add(crew);
+				
+				oos.writeObject(list);
+				
+				oos.close();
+				
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+				
+		} else if (obj == exit) {
+			System.exit(0);
+		}
+		
+	}
+
+}
