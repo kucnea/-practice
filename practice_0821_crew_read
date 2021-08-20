@@ -1,0 +1,125 @@
+package Ex2;
+
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.Collection;
+
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JTextArea;
+
+public class Day18Quiz10 extends JFrame implements ActionListener {
+
+	JMenuBar bar;
+	JMenu menu;
+	JMenuItem open, exit;
+	JTextArea jta;
+	static ArrayList<Crew> cList;
+	
+	Day18Quiz10() {
+		
+		bar = new JMenuBar();
+		menu = new JMenu("FILE");
+		open = new JMenuItem("OPEN");
+		exit = new JMenuItem("EXIT");
+		jta = new JTextArea();
+		
+		setJMenuBar(bar);
+		bar.add(menu);
+		menu.add(open);
+		menu.addSeparator();
+		menu.add(exit);
+		add(jta);
+		
+		Font f = new Font("맑은 고딕", Font.BOLD, 20);
+		jta.setFont(f);
+		
+		open.addActionListener(this);
+		exit.addActionListener(this);
+		
+		
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setBounds(200,200,800,600);
+		setTitle("사원정보 출력");
+		setVisible(true);
+	}
+	
+	
+	
+	public static void main(String[] args) {
+		cList = new ArrayList<Crew>();
+		new Day18Quiz10();
+		
+	}
+
+
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+
+		
+		
+		if(e.getSource() == open) {
+			jta.setText(""); // 파일을 오픈할 떄마다. 기존에 기록한 정보를 청소.
+			JFileChooser jfc = new JFileChooser();
+			
+				if(jfc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+
+					try {
+						ObjectInputStream ois = new ObjectInputStream
+								(new FileInputStream(jfc.getSelectedFile()));
+						
+						BufferedReader br = new BufferedReader
+								(new FileReader(jfc.getSelectedFile()));
+						
+						String str = null;
+						
+						ArrayList<Crew> cList = (ArrayList<Crew>) ois.readObject();
+						// 데이터를 내보낼때 ArrayList 형태로 내보냈음.
+						
+						while((str = br.readLine()) != null) {
+						
+							for(Crew c : cList) {	//리스트 형식을 JTextArea에 기록.
+								jta.append(c.getName() + "\n");
+								jta.append(c.getAge() + "\n");
+								jta.append(c.getPos() + "\n");
+								jta.append(c.getTel() + "\n");
+							}
+							for(Crew c : cList) {
+								System.out.println(c.toString());
+							}
+							
+							
+						}
+						
+						br.close(); // 스트림 종료.
+						
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			
+		} else if (e.getSource() == exit) {
+			System.exit(0);
+		}
+		
+		
+	}
+
+}
