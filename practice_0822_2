@@ -1,0 +1,132 @@
+package freeTest;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+
+public class grab2 {
+
+	public static void main(String[] args) {
+		
+		String[] grades = {"DS7651 A0", "CA0055 D+", "AI5543 C0", "OS1808 B-", "DS7651 B+", "AI0001 F", "DB0001 B-", "AI5543 D+", "DS7651 A+", "OS1808 B-"};
+		String[] answer = solution(grades);
+		
+		System.out.print(" { ");
+		for (int i = 0; i < answer.length; i++) {
+			System.out.print(answer[i]);
+			if(i!=answer.length-1) System.out.print(",");
+		}
+		System.out.println("}");
+		
+	}
+
+	private static String[] solution(String[] grades) {
+		String[] answer;
+		LinkedHashMap<String, String> table = new LinkedHashMap<String, String>();
+		
+		
+		//점수체계
+		String[] pointR = {"A+", "A0", "A-", "B+", "B0", "B-", "C+", "C0", "C-", "D+", "D0", "D-", "F"};
+		HashMap<String, Integer> point = new HashMap<String, Integer>();
+		for (int i = 0; i < pointR.length; i++) {
+			point.put(pointR[i], i);
+		}
+		//점수체계
+		
+		for (int i = 0; i < grades.length; i++) {
+			boolean flag = true;
+			String[] page = grades[i].split(" ");
+			String g1 = "과목 : "+page[0];
+			String g2 = "점수 : "+page[1];
+//			System.out.println(g1+"\n"+g2);
+			
+			if(i==0) {
+				table.put(page[0],page[1]);
+			}
+			
+			System.out.println("회차 : "+(i+1));
+			System.out.println("인입값 : "+page[0]+"인입점수 : "+page[1]);
+			
+			for(String s : table.keySet()) {
+//				System.out.println("==반복문 진입===");
+//				System.out.println("table key : "+s);
+//				System.out.println(g1);
+				System.out.println("비교값 : "+s+"비교점수 : "+table.get(s));
+//				System.out.println(table);
+				if(s.equals(page[0])) {
+					System.out.println("SYSTEM : 같은 key값있어 비교시작");
+//					System.out.println("key와 과목이 같아");
+//					System.out.println("==");
+//					System.out.println(g1+"\n"+g2);
+//					System.out.println(table.get(page[0]));
+//					System.out.println("==");
+					if(point.get(page[1])<point.get(table.get(page[0]))){
+//						System.out.println("●삽입");
+//						table.remove(page[0]);
+						System.out.println("SYSTEM : 인입값의 점수가 적어 삽입");
+						table.put(page[0],page[1]);
+						break;
+					}else {
+						flag = false;
+					}
+					System.out.println("SYSTEM : 비교 반복");
+						
+				}
+//				System.out.println("==반복문 단락===");	
+			}
+			if(flag) {
+				System.out.println("SYSTEM : 같은 key값없어 삽입");
+				table.put(page[0],page[1]);
+			}
+			
+			System.out.println("SYSTEM : "+(i+1)+"회 종료");
+			System.out.println("SYSTEM : "+(i+1)+"회 종료");
+			System.out.println("SYSTEM : "+(i+1)+"회 종료");
+			System.out.println("SYSTEM : "+(i+1)+"회 종료");
+			System.out.println("SYSTEM : "+(i+1)+"회 종료");
+			System.out.println("SYSTEM : "+(i+1)+"회 종료");
+		}
+		
+		System.out.println("table : "+table);
+		
+		HashMap<String, Integer> a =new HashMap<String, Integer>();
+		
+		for(String s : table.keySet()) {
+			a.put(s, point.get(table.get(s)));
+		}
+		List<String> listKeySet = new ArrayList<>(a.keySet());
+		Collections.sort(listKeySet, (value1, value2) -> (a.get(value1).compareTo(a.get(value2))));
+		int c = 0;
+		LinkedHashMap<String, String> table1 = new LinkedHashMap<String, String>();
+		for (int i = 0; i < table.size(); i++) {
+			for(String s : table.keySet()) {
+				if(table.get(s)==listKeySet.get(c)){
+					table1.put(s, table.get(s));
+					c++;
+				}
+			}
+		}
+		for(String s : listKeySet) {
+			
+		}
+			
+		
+		answer = new String[table.size()]; 
+		int i = 0;
+		for(String s : table.keySet()) {
+//			System.out.println("table key : "+s);
+			answer[i] = s+" "+table.get(s);
+//			System.out.println("삽입값 : "+answer[i]);
+			i++;
+		}
+		
+		
+		return answer;
+	}
+
+}
+
+//"DS7651 A+","CA0055 D+","AI5543 D+","OS1808 B-","AI0001 F","DB0001 B-"
+//"DS7651 A+","OS1808 B-","DB0001 B-","AI5543 C0","CA0055 D+","AI0001 F"
