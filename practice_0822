@@ -1,0 +1,104 @@
+
+public class grab1 {
+
+	public static void main(String[] args) {
+		
+		String[] infos = {"kim password", "lee abc"};
+		String[] actions = {"ADD 30", "LOGIN kim abc", "LOGIN lee password", "LOGIN kim password", "LOGIN kim password", "LOGIN lee abc", "ADD 30", "ORDER", "ORDER", "ADD 40", "ADD 50"};
+		
+		boolean[] answer = solution(infos, actions);
+		
+		System.out.print(" { ");
+		for (int i = 0; i < answer.length; i++) {
+			System.out.print(answer[i]);
+			if(i!=answer.length-1) System.out.print(",");
+		}
+		System.out.println("}");
+		
+	}
+
+	private static boolean[] solution(String[] infos, String[] actions) {
+		boolean[] answer = new boolean[actions.length];
+		boolean state = false;
+		boolean basket = false;
+		int[] product = new int[actions.length];
+		
+		String id = "";
+		String pw = "";
+		
+		for (int i = 0; i < actions.length; i++) {
+			System.out.println("actions["+i+"] : "+actions[i]);
+			if(actions[i].contains("LOGIN")) {
+				//로그인은 한번 뿐임, 로그아웃 없음
+				if(state==false) {
+					String[] p = actions[i].split(" ");
+					id = p[1];
+					pw = p[2];
+					System.out.println("로그인 전");
+					System.out.println("id : "+id);
+					System.out.println("pw : "+pw);
+					for (int j = 0; j < infos.length; j++) {
+					
+						if(infos[j].contains(id)) {
+							System.out.println("로그인 중");
+							System.out.println("infos[j] : "+infos[j]);
+							System.out.println("id : "+id);
+							System.out.println("pw : "+pw);
+							if(infos[j].contains(pw)){
+								state = true;
+								answer[i] = true;
+								break;
+							}else {
+								state = false;
+								answer[i] = false;
+							}
+							
+						}else {
+							answer[i] = false;
+						}
+					
+					}
+				}else {
+					answer[i] = false;
+				}
+				
+			}else if(actions[i].contains("ADD")) {
+				// 주문 상품이 같을경우는 없나? 테스트케이스를 보고 보수예정
+				// 테스트케이스 7이 이건가
+				if(state==true) {
+					basket = true;
+					answer[i] = true;
+					product[i] = Integer.parseInt((actions[i].split(" "))[1]);
+					
+//					for (int j = 0; j < product.length; j++) {
+//						if(product[j]==product[i] && i!=j) {
+//							System.out.println("같은상품");
+//							answer[i] = false;
+//						}
+//					}
+					
+				}else {
+					answer[i] = false;
+				}
+				
+			}else if(actions[i].equals("ORDER")) {
+				
+				if(state==true && basket==true) {
+					basket = false;
+					answer[i] = true;
+				}else {
+					answer[i] = false;
+				}
+				
+			}
+			
+			System.out.println("actions["+i+"] : "+actions[i]+"// answer : "+answer[i]+"// state : "+state);
+		}
+		
+		//false,false,false,false,false,false,true,true,false,true,false
+		//false,false,false,true,false,false,true,true,false,true,true
+		return answer;
+	}
+
+
+}
