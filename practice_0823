@@ -1,0 +1,78 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+
+public class failRate {
+
+	public static void main(String[] args) {
+		
+		int[] stages = {4,4,4,4,4};
+		int N = 5;
+		int[] answer = solution(N, stages);
+		
+		System.out.print("{");
+		for (int i = 0; i < answer.length; i++) {
+			System.out.print(answer[i]);
+			if(i!=answer.length-1) {
+				System.out.print(",");
+			}
+		}
+		System.out.println("}");
+		
+	}
+
+	private static int[] solution(int n, int[] stages) {
+		int[] answer = new int[n];
+		double[] rate = new double[n];
+		double[] fail = new double[n];
+		
+		for (int i = 0; i < fail.length; i++) {
+			for (int j = 0; j < stages.length; j++) {
+				if(stages[j]==i+1) {
+					fail[i]++;
+				}	
+			}
+		}
+		
+		int sum = 0;
+		for (int i = 0; i < fail.length; i++) {
+			
+			if(i==0) rate[i]=fail[i]/(stages.length);
+			else {
+				sum += fail[i-1];
+				if(stages.length-sum!=0) rate[i]=fail[i]/(stages.length-sum);
+				else rate[i]=0.0;
+			}
+		}
+		
+		System.out.println("도전자 : "+stages.length);
+		
+		System.out.print("{");
+		for (int i = 0; i < rate.length; i++) {
+			System.out.print(rate[i]);
+			if(i!=rate.length-1) {
+				System.out.print(",");
+			}
+		}
+		System.out.println("}");
+		
+		LinkedHashMap<Integer, Double> map = new LinkedHashMap<Integer, Double>();
+		for (int i = 0; i < rate.length; i++) {
+			map.put((i+1),rate[i]);
+		}
+//		System.out.println(map);
+		List<Integer> list = new ArrayList<>(map.keySet());
+		Collections.sort(list, (value1, value2) -> (map.get(value2).compareTo(map.get(value1))));
+		
+		int count = 0;
+		for(Integer i : list) {
+//			System.out.println(i);
+			answer[count]=i;
+			count++;
+		}
+		
+		return answer;
+	}
+
+}
