@@ -1,0 +1,73 @@
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
+public class Main {
+
+	public static void main(String[] args) {
+		Map<String, Integer> testMap = new HashMap<String, Integer>();
+
+		// Map에 데이터 추가
+		testMap.put( "apple", 1);
+		testMap.put( "orange", 2);
+		testMap.put( "pineapple", 4);
+		testMap.put( "strawberry", 5);
+		testMap.put( "melon", 3);
+
+		// Map.Entry 리스트 작성
+		List<Entry<String, Integer>> list_entries = new ArrayList<Entry<String, Integer>>(testMap.entrySet());
+
+		// 비교함수 Comparator를 사용하여 오름차순으로 정렬
+		Collections.sort(list_entries, new Comparator<Entry<String, Integer>>() {
+			// compare로 값을 비교
+			public int compare(Entry<String, Integer> obj1, Entry<String, Integer> obj2) {
+				// 오름 차순 정렬
+				return obj1.getValue().compareTo(obj2.getValue());
+			}
+		});
+
+		System.out.println("오름 차순 정렬");
+		// 결과 출력
+		for(Entry<String, Integer> entry : list_entries) {
+			System.out.println(entry.getKey() + " : " + entry.getValue());
+		}
+	}
+
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+public class Main {
+
+	public static void main(String[] args) {
+		// Map 선언
+		Map<Integer, String> testMap = new HashMap<Integer, String>();
+
+		// Map에 데이터 추가
+		testMap.put( 1, "apple");
+		testMap.put( 4, "pineapple");
+		testMap.put( 2, "orange");
+		testMap.put( 5, "strawberry");
+		testMap.put( 3, "melon");
+
+		// 키로 정렬
+		Object[] mapkey = testMap.keySet().toArray();
+		Arrays.sort(mapkey);
+
+		// 결과 출력
+		for (Integer nKey : testMap.keySet())
+		{
+			System.out.println(testMap.get(nKey));
+		}
+	}
+
+}
+
+/////라는 코드를 인터넷에서 보았다.
+/////근데 key정렬은..사실 지금 소개된 방법으로는 옳지않다.
+/////숫자로 key값을 정하면 그냥 그대로 나오고 이를 다른 방법으로 정렬한다 하더라도 
+/////위의 코드로는 원하는 로직이 형성되지 않는다. 다른 로직으로 바꿔보는 것을 다음에 연습해보겠다.
